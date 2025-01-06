@@ -26,3 +26,28 @@ console.log(person["address"]["zip"]);
 // Note: Brackets are needed when accessing properties with spaces in their names
 
 
+
+
+// The following line of code checks if the property exists in the object. If it does, it assigns the value to the property. If it doesn't, it assigns an empty array to the property.
+collection[id][prop] = collection[id][prop] || [];
+
+// Example:
+const collection = {};
+const id = 'user1';
+const prop = 'friends';
+
+// Before assignment
+console.log(collection[id][prop]); // undefined
+
+// Assigning a value to the property using the OR operator
+collection[id][prop] = collection[id][prop] || [];
+
+// After assignment
+console.log(collection[id][prop]); // []
+
+// Now we can push values to the array
+collection[id][prop].push('John');
+collection[id][prop].push('Jane');
+
+console.log(collection[id][prop]); // ['John', 'Jane']
+
