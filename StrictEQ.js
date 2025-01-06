@@ -27,3 +27,13 @@ See the link below for more info:
 https://stackoverflow.com/questions/14533046/why-doesnt-javascript-have-strict-greater-less-than-comparison-operators
 */
 
+// In a switch case it uses a STRICT Equality operator ===
+const a = 2;
+
+switch(a) {
+    case '2':
+        console.log('Normal equality'); break;
+    case 2:
+        console.log('Strict equality'); break;
+}
+
