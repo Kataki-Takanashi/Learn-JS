@@ -133,10 +133,14 @@ const contacts = [
         return "Profile Not Found.";
     }
 
-    return profile[prop];
+    return profile[prop] || profile.name + " does not have the property " + '"' + prop + '".' ;
   }
 
   function generateOutputString(stuffLiked, name) {
+    if (!Array.isArray(stuffLiked)) { // Check if "lookUpProfile" returned an error instead of an array
+      return stuffLiked;
+    }
+
     let lastItem = stuffLiked.pop();
   
     let output = name + " likes ";
@@ -149,7 +153,7 @@ const contacts = [
     return output;
   }
 
-  let stuffLiked = lookUpProfile("Astrid", "likes", contacts);
+  let stuffLiked = lookUpProfile("Astrid", "arps", contacts);
   let output = generateOutputString(stuffLiked, "Astrid");
 
 
