@@ -153,7 +153,7 @@ const contacts = [
     return output;
   }
 
-  let stuffLiked = lookUpProfile("Astrid", "arps", contacts);
+  let stuffLiked = lookUpProfile("Astrid", "likes", contacts);
   let output = generateOutputString(stuffLiked, "Astrid");
 
 
