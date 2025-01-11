@@ -133,7 +133,7 @@ const contacts = [
         return "Profile Not Found.";
     }
 
-    return profile[prop] || profile.name + " does not have the property " + '"' + prop + '".' ;
+    return profile[prop] || profile.firstname + " does not have the property " + '"' + prop + '".' ;
   }
 
   function generateOutputString(stuffLiked, name) {
