@@ -6,7 +6,7 @@
 var x = 10;
 console.log(x); // outputs 10
 
-// let is a newer way to declare a variable. It has block scope, which means it is only accessible within the block it is declared in.
+// let is a newer way to declare a variable. It has block scope, which means it is only accessible within the block it is declared in. Or globally if not in a function.
 let y = 20;
 console.log(y); // outputs 20
 
