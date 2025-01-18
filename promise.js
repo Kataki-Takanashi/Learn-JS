@@ -61,7 +61,7 @@ function launchSequence() {
         .catch(error => console.error(error)); // Logs the error message if any of the promises fail
 }
 
-launchSequence();
+//launchSequence();
 
 // Expected success output:
 // "Fuel levels nominal..."
@@ -108,19 +108,54 @@ const adoptionHours = {
 function findAvailablePet(petType) {
     // Return a promise that resolves with an available pet of the specified type
     // Reject if no pets of that type are available
+    return new Promise((resolve, reject) => {
+        const pet = availablePets.find(pet => pet.type === petType && pet.status === "available");
+        pet ?
+            resolve(`Found pet: ${pet.name}`) :
+            reject("No pets of that type available")
+    });
 }
 
 function processAdoptionPapers(pet) {
     // Return a promise that processes the adoption papers
     // Should take 2 seconds to process (use setTimeout)
     // 80% chance of success, 20% chance of rejection
+    return new Promise((resolve, reject) => {
+        console.log("Processing adoption papers...");
+        setTimeout(() => {
+            const success = Math.random() < 0.8;
+
+            success ?
+                resolve("Papers approved!") :
+                reject("Adoption papers rejected")
+        }, 2000);
+    });
 }
 
-function schedulePickup(pet, day) {
+function schedulePickup(day) {
     // Return a promise that schedules a pickup
     // Should reject if the selected day is 'wednesday' (closed)
     // Should reject if the pet adoption hasn't been processed
+    return new Promise((resolve, reject) => {
+        if (day === "wednesday") {
+            reject("Cannot schedule pickup: Wednesday is closed");
+        }
+
+        resolve(`Pickup scheduled for ${day} at 9:00`);
+    });
 }
+
+function adoptPet() {
+    findAvailablePet("dog")
+        .then(console.log)
+        .then(processAdoptionPapers)
+        .then(console.log)
+        .then(() => schedulePickup("monday"))
+        .then(console.log)
+        .catch(error => console.error(error));
+}
+
+adoptPet();
 
 // Use your promises here to:
 // 1. Find an available dog
