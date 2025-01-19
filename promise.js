@@ -155,7 +155,7 @@ function adoptPet() {
         .catch(error => console.error(error));
 }
 
-adoptPet();
+//adoptPet();
 
 // Use your promises here to:
 // 1. Find an available dog
@@ -208,21 +208,55 @@ const brewingTimes = {
     "Wisdom Brew": 4000
 };
 
+const effectMessage = {
+    "Luck Elixir": "Lucky",
+    "Power Potion": "Powerful",
+    "Wisdom Brew": "Wise"
+}
+
+const brewSuccessChance = 0.7; // 70%
+
 function gatherIngredients(potionName) {
     // Return a promise that resolves if all ingredients for the potion are in stock
     // Reject if any ingredient is missing
+    return new Promise((resolve, reject) => {
+        const recipeIngredients = potionRecipes[potionName];
+        
+        recipeIngredients.forEach(ingredient => { if (ingredients[ingredient] === 0) { reject(`Missing ingredient: ${ingredient}`) }; });
+
+        resolve("Ingredients gathered successfully!");
+    });
 }
 
 function brewPotion(potionName) {
     // Return a promise that resolves after the correct brewing time
     // Should show a brewing progress message
+    console.log("Brewing in progress...");
+    return new Promise((resolve, reject) => setTimeout(() => resolve("Brewing complete!"), brewingTimes[potionName]) );
 }
 
 function testPotion(potionName) {
     // Return a promise that tests the potion
     // 70% chance of success, 30% chance of failure
     // If successful, resolve with a magical effect message
+    return new Promise((resolve, reject) => {
+        const success = Math.random() < brewSuccessChance;
+
+        success ?
+            resolve(`Test successful: If drunk it will make you ${effectMessage[potionName]}!`) :
+            reject("Test failed: Potion was ineffective");
+    });
 }
+
+const testName = "Luck Elixir";
+
+gatherIngredients(testName)
+    .then(console.log)
+    .then(() => brewPotion(testName))
+    .then(console.log)
+    .then(() => testPotion(testName))
+    .then(console.log)
+    .catch(error => console.error(error));
 
 // Use your promises here to:
 // 1. Gather ingredients for a "Luck Elixir"
