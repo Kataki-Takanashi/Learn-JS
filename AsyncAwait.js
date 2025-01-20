@@ -2,202 +2,234 @@
 // =====================
 
 /*
-  Time Travel Agency Management System! ⌛
+  Pizza Restaurant Order System! 🍕
   
-  You're running a time travel agency and need to manage tourist trips to different time periods.
-  For each journey you need to:
-  1. Check timeline stability for the chosen year (must be > 85%)
-  2. Power up the time machine (takes 3 seconds, needs 90% power level)
-  3. Run safety protocols (80% success rate)
-  4. Transport the tourist (different times for different eras)
-  
-  Use async/await to manage this sequence. If any step fails, the journey
-  should be cancelled with an appropriate message.
+  Technical Requirements:
+
+  1. Order Processing:
+     - Each order must have: orderId (number) and toppings (array of strings)
+     - Valid toppings are: "cheese", "pepperoni", "mushrooms", "sausage", "olives"
+     - Maximum 3 toppings per pizza
+     - Orders with invalid toppings should be rejected
+
+  2. Station Processing:
+     - Dough Station: 
+       * Takes exactly 2000ms to prepare
+       * Can handle 2 orders simultaneously
+       * Returns: { orderId, status: "dough_ready" }
+
+     - Toppings Station:
+       * Takes 1000ms per topping
+       * Can handle 3 orders simultaneously
+       * Returns: { orderId, status: "toppings_added", toppings: string[] }
+
+     - Oven Station:
+       * Takes exactly 5000ms to cook
+       * Can handle 4 pizzas simultaneously
+       * Returns: { orderId, status: "cooked", cookedAt: timestamp }
+
+  3. Error Handling Requirements:
+     - Must throw "STATION_FULL" if station capacity is exceeded
+     - Must throw "INVALID_TOPPINGS" if toppings are invalid
+     - Must throw "PROCESSING_FAILED" if any station fails
+
+  4. Success Criteria:
+     - Order must pass through all stations in sequence
+     - Must maintain correct station capacity limits
+     - Must track time spent at each station
+     - Final output must include total preparation time
 */
 
-const timelinePeriods = {
-    "Ancient Egypt": { year: -3000, stability: 90, travelTime: 5000 },
-    "Medieval Times": { year: 1200, stability: 85, travelTime: 3000 },
-    "Renaissance": { year: 1500, stability: 80, travelTime: 2000 }
+const stationTimes = {
+    "dough": 2000,    // 2 seconds to prepare dough
+    "toppings": 1000, // 1 second per topping
+    "oven": 5000      // 5 seconds to cook
 };
 
-let machinePowerLevel = 95;
+const stationCapacity = {
+    "dough": 2,     // Can prepare 2 doughs at once
+    "toppings": 3,  // Can top 3 pizzas at once
+    "oven": 4       // Oven fits 4 pizzas
+};
 
-async function checkTimelineStability(period) {
-    // Check if timeline stability is > 85% for the chosen period
-    // Return stability status message if good, throw error if unstable
+const validToppings = ["cheese", "pepperoni", "mushrooms", "sausage", "olives"];
+
+async function prepareDough(orderId) {
+    // Your code here
 }
 
-async function powerUpMachine() {
-    // Power up takes 3 seconds
-    // Check if power level >= 90%
-    // Return power up message or throw error
+async function addToppings(orderId, toppings) {
+    // Your code here
 }
 
-async function runSafetyProtocols() {
-    // 80% success rate
-    // Return safety check message or throw error
+async function cookPizza(orderId) {
+    // Your code here
 }
 
-async function transportTourist(period) {
-    // Takes different time based on period's travelTime
-    // Return success message with destination year
+async function processOrder(orderId, toppings) {
+    // Your code here
 }
 
-// Create a timeTravel function that uses async/await to:
-// 1. Check timeline stability
-// 2. Power up the machine
-// 3. Run safety protocols
-// 4. Transport the tourist
+// Example Usage:
+// processOrder(1, ["cheese", "pepperoni"])
+//   .then(result => console.log(result))
+//   .catch(error => console.error(error));
 
-// Expected success output:
-// "Timeline stability confirmed for Ancient Egypt: 90%"
-// "Time machine powered up successfully!"
-// "Safety protocols: All checks passed"
-// "Tourist transported successfully to year -3000!"
+// Expected Success Output Format:
+// {
+//   orderId: 1,
+//   toppings: ["cheese", "pepperoni"],
+//   startedAt: timestamp,
+//   completedAt: timestamp,
+//   totalTime: 8000,
+//   status: "completed"
+// }
 
-// Expected error outputs:
-// "Timeline too unstable for travel"
-// "Insufficient power level: Current level 85%"
-// "Safety protocol failure: [reason]"
+// Expected Error Format:
+// {
+//   error: "STATION_FULL" | "INVALID_TOPPINGS" | "PROCESSING_FAILED",
+//   orderId: number,
+//   station?: string,
+//   message: string
+// }
 
 
 // Async/Await Challenge #2! 🎯
 // =====================
 
 /*
-  Intergalactic Food Delivery Service! 🚀🍕
+  Quantum Computer Simulation System! 🌌
   
-  You're managing an interplanetary food delivery service.
-  For each delivery you need to:
-  1. Check if the restaurant is open on the origin planet
-  2. Prepare the food (different times for different dishes)
-  3. Find an available delivery pilot
-  4. Calculate delivery route (some planets might be in blackholes!)
+  You're running a quantum computer that can solve complex calculations by splitting
+  into parallel universes! For each computation you need to:
+  1. Initialize quantum bits (qubits) in parallel
+  2. Maintain quantum entanglement (all qubits must stay synchronized)
+  3. Merge results from parallel universes
+  4. Verify quantum coherence wasn't lost
   
-  Use async/await to manage this sequence. Handle all potential issues
-  that might occur during delivery.
+  The twist: Each qubit exists in multiple states simultaneously and
+  affects all other qubits instantly through quantum entanglement!
 */
 
-const restaurants = {
-    "Martian Grill": { status: "open", preparationTime: 2000 },
-    "Jupiter's Pizza": { status: "closed", preparationTime: 3000 },
-    "Saturn's Sushi": { status: "open", preparationTime: 4000 }
+const quantumRegisters = {
+    "alpha": { stability: 0.95, entanglementStrength: 0.9, coherenceTime: 2000 },
+    "beta": { stability: 0.85, entanglementStrength: 0.95, coherenceTime: 3000 },
+    "gamma": { stability: 0.99, entanglementStrength: 0.8, coherenceTime: 1000 }
 };
 
-const pilots = [
-    { name: "Zorg", available: true },
-    { name: "Kira", available: false },
-    { name: "Rex", available: true }
-];
-
-const planets = {
-    "Mars": { inBlackhole: false, deliveryTime: 2000 },
-    "Jupiter": { inBlackhole: true, deliveryTime: 3000 },
-    "Saturn": { inBlackhole: false, deliveryTime: 4000 }
+const calculations = {
+    "encryption": { complexity: 5, requiredQubits: 3, maxDecoherence: 0.1 },
+    "modeling": { complexity: 3, requiredQubits: 2, maxDecoherence: 0.2 },
+    "optimization": { complexity: 4, requiredQubits: 4, maxDecoherence: 0.15 }
 };
 
-async function checkRestaurantStatus(restaurant) {
-    // Check if restaurant is open
-    // Return confirmation or throw error
+// Quantum states are represented as complex numbers
+const quantumStates = new Map();
+let decoherenceLevel = 0;
+
+async function initializeQubits(calculation) {
+    // Initialize multiple qubits in parallel using Promise.all
+    // Each qubit must achieve quantum superposition
+    // More qubits = higher chance of decoherence
 }
 
-async function prepareFood(restaurant) {
-    // Takes time based on restaurant's preparationTime
-    // Return preparation confirmation or throw error
+async function maintainEntanglement(activeQubits) {
+    // All qubits must remain entangled during calculation
+    // Uses setInterval to continuously check entanglement
+    // Must handle sudden decoherence events
 }
 
-async function findPilot() {
-    // Find first available pilot
-    // Return pilot name or throw error if none available
+async function mergeUniverses(results) {
+    // Combine results from multiple quantum states
+    // Higher complexity = more universes to merge
+    // Must maintain quantum coherence during merge
 }
 
-async function calculateRoute(destination) {
-    // Check if destination is in blackhole
-    // Return route and delivery time or throw error
+async function validateResults(calculation, finalState) {
+    // Check if decoherence remained within acceptable levels
+    // Verify all quantum states merged correctly
+    // Ensure result precision meets requirements
 }
 
-// Create a processDelivery function that uses async/await to:
-// 1. Check restaurant status
-// 2. Prepare food
-// 3. Find pilot
-// 4. Calculate route
+// Create a runQuantumCalculation function that:
+// 1. Initializes required number of qubits
+// 2. Maintains entanglement during calculation
+// 3. Merges results from all universes
+// 4. Validates quantum coherence
 
 // Expected success output:
-// "Martian Grill is open and accepting orders"
-// "Food preparation complete: Order #1234"
-// "Pilot Zorg assigned to delivery"
-// "Route calculated: Delivery will take 2000ms"
+// "Initialized 3 qubits in quantum superposition"
+// "Quantum entanglement maintained at 94% strength"
+// "Merged results from 8 parallel universes"
+// "Quantum coherence verified: Final decoherence 0.08"
 
 // Expected error outputs:
-// "Restaurant currently closed"
-// "All pilots currently busy"
-// "Destination unreachable: Planet in blackhole"
+// "Quantum decoherence exceeded threshold"
+// "Entanglement lost between qubits [id1] and [id2]"
+// "Universe merge conflict: Incompatible quantum states"
+// "Invalid result: Required precision not achieved"
 
 
 // Async/Await Challenge #3! 🎯
 // =====================
 
 /*
-  Magical Library Management System! 📚✨
+  Space Colony Resource Manager! 🚀
   
-  You're the librarian at a magical library where books have a life of their own!
-  For each book checkout you need to:
-  1. Find the book (they move around the library)
-  2. Calm it down (some books are aggressive!)
-  3. Check if reader has required magical level
-  4. Create magical contract between book and reader
+  You're managing resource distribution for multiple space colonies.
+  Each colony needs:
+  1. Power distribution (load balancing between sectors)
+  2. Water recycling (parallel processing stations)
+  3. Air filtration (must maintain minimum quality)
+  4. Emergency protocols (handle multiple crises simultaneously)
   
-  Use async/await to manage this sequence. Handle all the magical
-  complications that might arise!
+  The twist: Resources are shared between colonies and must be optimized!
 */
 
-const books = {
-    "Dragonfire Spells": { aggression: 8, minMagicLevel: 7, location: "moving" },
-    "Peaceful Potions": { aggression: 2, minMagicLevel: 3, location: "stable" },
-    "Ancient Runes": { aggression: 5, minMagicLevel: 8, location: "moving" }
+const colonies = {
+    "Alpha": { sectors: 3, population: 500, priority: 1 },
+    "Beta": { sectors: 2, population: 300, priority: 2 },
+    "Gamma": { sectors: 4, population: 700, priority: 1 }
 };
 
-const readers = {
-    "Merlin": { magicLevel: 10, banned: false },
-    "Apprentice Tim": { magicLevel: 4, banned: false },
-    "Dark Wizard": { magicLevel: 9, banned: true }
+const resourcePool = {
+    power: 10000,
+    water: 5000,
+    air: 8000
 };
 
-async function locateBook(bookName) {
-    // Books with "moving" location take longer to find
-    // Return location or throw error if book escapes
+async function balancePower(colony, sectors) {
+    // Distribute power across sectors
+    // Handle peak usage times
 }
 
-async function calmBook(bookName) {
-    // Books with aggression > 5 are harder to calm
-    // Return success or throw error if book is too aggressive
+async function recycleWater(stations) {
+    // Process water recycling in parallel
+    // Monitor quality levels
 }
 
-async function checkMagicLevel(bookName, reader) {
-    // Check if reader meets minimum magic level and isn't banned
-    // Return approval or throw error
+async function maintainAirQuality(colony) {
+    // Monitor and adjust air quality
+    // Handle different sector requirements
 }
 
-async function createMagicalContract(bookName, reader) {
-    // 90% success rate for contract creation
-    // Return contract or throw error if book refuses
+async function handleEmergency(type, affectedColonies) {
+    // Coordinate emergency response across colonies
+    // Redistribute resources based on priority
 }
 
-// Create a processBookCheckout function that uses async/await to:
-// 1. Locate the book
-// 2. Calm it down
-// 3. Check reader's magic level
-// 4. Create magical contract
+// Create a manageColonies function that:
+// 1. Optimizes resource distribution
+// 2. Monitors all systems in parallel
+// 3. Responds to emergencies while maintaining essential services
 
 // Expected success output:
-// "Book 'Peaceful Potions' found in the Potions Section"
-// "Book successfully calmed"
-// "Reader magic level approved"
-// "Magical contract created successfully!"
+// "Power balanced: [colony] sectors optimal"
+// "Water recycling: [efficiency]% effective"
+// "Air quality: All sectors nominal"
+// "Emergency handled: [type] in [colonies]"
 
 // Expected error outputs:
-// "Book escaped before it could be caught"
-// "Book too aggressive to handle"
-// "Reader's magic level too low"
-// "Book refused to create contract"
+// "Power distribution failure in [sector]"
+// "Critical water quality alert"
+// "Air quality below minimum in [colony]"
