@@ -55,19 +55,28 @@ const stationCapacity = {
 const validToppings = ["cheese", "pepperoni", "mushrooms", "sausage", "olives"];
 
 async function prepareDough(orderId) {
-    // Your code here
+    return setTimeout(() => {
+        return { orderId, status: "dough_ready" };
+    }, stationTimes.dough);
 }
 
 async function addToppings(orderId, toppings) {
-    // Your code here
+    if (!validToppings.every(topping => toppings.includes(topping))) {
+        throw new Error("INVALID_TOPPINGS");
+    }
+    return setTimeout(() => {
+        return { orderId, status: "toppings_added", toppings };
+    }, stationTimes.toppings * toppings.length);
 }
 
 async function cookPizza(orderId) {
-    // Your code here
+    return setTimeout(() => {
+        return { orderId, status: "cooked", cookedAt: Date.now() };
+    }, stationTimes.oven)
 }
 
 async function processOrder(orderId, toppings) {
-    // Your code here
+    
 }
 
 // Example Usage:
