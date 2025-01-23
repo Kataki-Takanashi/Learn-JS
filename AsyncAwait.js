@@ -15,17 +15,14 @@
   2. Station Processing:
      - Dough Station: 
        * Takes exactly 2000ms to prepare
-       * Can handle 2 orders simultaneously
        * Returns: { orderId, status: "dough_ready" }
 
      - Toppings Station:
        * Takes 1000ms per topping
-       * Can handle 3 orders simultaneously
        * Returns: { orderId, status: "toppings_added", toppings: string[] }
 
      - Oven Station:
        * Takes exactly 5000ms to cook
-       * Can handle 4 pizzas simultaneously
        * Returns: { orderId, status: "cooked", cookedAt: timestamp }
 
   3. Error Handling Requirements:
@@ -46,12 +43,6 @@ const stationTimes = {
     "oven": 5000      // 5 seconds to cook
 };
 
-const stationCapacity = {
-    "dough": 2,     // Can prepare 2 doughs at once
-    "toppings": 3,  // Can top 3 pizzas at once
-    "oven": 4       // Oven fits 4 pizzas
-};
-
 const validToppings = ["cheese", "pepperoni", "mushrooms", "sausage", "olives"];
 
 async function prepareDough(orderId) {
@@ -61,9 +52,12 @@ async function prepareDough(orderId) {
 }
 
 async function addToppings(orderId, toppings) {
-    if (!validToppings.every(topping => toppings.includes(topping))) {
+    if (!toppings.every(topping => validToppings.includes(topping))) {
         throw new Error("INVALID_TOPPINGS");
+    } else if (toppings.length > 3) {
+        throw new Error("TOO_MANY_TOPPINGS");
     }
+
     return setTimeout(() => {
         return { orderId, status: "toppings_added", toppings };
     }, stationTimes.toppings * toppings.length);
@@ -76,8 +70,33 @@ async function cookPizza(orderId) {
 }
 
 async function processOrder(orderId, toppings) {
-    
+    const startedAt = Date.now();
+    const dough = await prepareDough(orderId);
+    const validToppings = await addToppings(orderId, toppings);
+    const cooked = await cookPizza(orderId);
+    const completedAt = Date.now();
+    return {
+        orderId,
+        toppings,
+        startedAt,
+        completedAt,
+        totalTime: completedAt - startedAt,
+        status: "completed"
+    };
 }
+
+orderId = 1;
+toppings = ["chesese", "pepperoni"];
+
+processOrder(orderId, toppings)
+  .then(result => console.log(result))
+  .catch(error => {
+    console.error( {
+        error: error.name,
+        orderId: orderId,
+        message: error.message
+    });
+});
 
 // Example Usage:
 // processOrder(1, ["cheese", "pepperoni"])
@@ -96,9 +115,8 @@ async function processOrder(orderId, toppings) {
 
 // Expected Error Format:
 // {
-//   error: "STATION_FULL" | "INVALID_TOPPINGS" | "PROCESSING_FAILED",
+//   error: "INVALID_TOPPINGS" | "PROCESSING_FAILED",
 //   orderId: number,
-//   station?: string,
 //   message: string
 // }
 
