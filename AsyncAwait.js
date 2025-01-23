@@ -86,7 +86,7 @@ async function processOrder(orderId, toppings) {
 }
 
 orderId = 1;
-toppings = ["chesese", "pepperoni"];
+toppings = ["cheese", "pepperoni"];
 
 processOrder(orderId, toppings)
   .then(result => console.log(result))
