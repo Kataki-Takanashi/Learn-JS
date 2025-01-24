@@ -158,8 +158,13 @@ async function initializeQubits(calculation) {
     // Initialize multiple qubits in parallel using Promise.all
     // Each qubit must achieve quantum superposition
     // More qubits = higher chance of decoherence
+    let qubits = [];
+    for (let qubit = 0; qubit <= calculations[calculation].requiredQubits; qubit++) {
+        qubits.push(await setTimeout(() => {}, quantumRegisters.alpha.coherenceTime));
+    }
+    console.log(JSON.stringify(qubits.length));
 }
-
+initializeQubits("encryption");
 async function maintainEntanglement(activeQubits) {
     // All qubits must remain entangled during calculation
     // Uses setInterval to continuously check entanglement
