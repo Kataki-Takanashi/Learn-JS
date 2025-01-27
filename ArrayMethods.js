@@ -167,7 +167,8 @@ products.forEach(product => {
 
 // Some
 const hasProductWithLowStock = products.some(product => product.stock < lowStockWarnThreshold);
-console.log(hasProductWithLowStock? "There are products with low stock" : "There are no products with low stock");
+console.log(hasProductWithLowStock? "%cThere are products with low stock" : "%cThere are no products with low stock",
+            hasProductWithLowStock?       "color: red; font-weight: bold" : "color: green; font-weight: bold");
 
 
 // Reduce
